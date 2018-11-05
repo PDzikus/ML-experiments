@@ -54,7 +54,7 @@ def build_model():
 
 # Because of small amount of data we'll be using for this model, we need to use K-fold cross-validation scheme for training to avoid (reduce) overfitting
 
-# In[9]:
+# In[ ]:
 
 
 import numpy as np
@@ -63,6 +63,10 @@ k = 4
 num_val_samples = len(train_data) // k
 num_epochs = 100
 all_scores = []
+
+
+# In[9]:
+
 
 for i in range(k):
     print(f"processing fold #{i}")
@@ -88,7 +92,7 @@ print(f"mean MSE: {np.mean(all_scores)}")
 # #### new version of model training
 #     This time I will train model with saved history of training
 
-# In[ ]:
+# In[13]:
 
 
 num_epochs = 500
@@ -108,7 +112,7 @@ for i in range(k):
     all_mae_histories.append(mae_history)
 
 
-# In[ ]:
+# In[17]:
 
 
 import matplotlib.pyplot as plt
@@ -116,13 +120,13 @@ import matplotlib.pyplot as plt
 average_mae_history = [np.mean([x[i] for x in all_mae_histories]) for i in range (num_epochs)]
 plt.plot(range(1, len(average_mae_history) + 1), average_mae_history)
 plt.xlabel('Epochs')
-plt.ylabel('Validataion MAE')
+plt.ylabel('Validation MAE')
 plt.show()
 
 
 # Because above plot is hard to read, we'll remove first 10 data points, and the rest of the plot will be smoothed - ech point will be replaced with an exponential moving average of the previous points
 
-# In[ ]:
+# In[20]:
 
 
 def smooth_curve(points, factor = 0.9):
@@ -137,14 +141,19 @@ def smooth_curve(points, factor = 0.9):
 
 smooth_mae_history = smooth_curve(average_mae_history[10:])
 
+plt.plot(range(1, len(smooth_mae_history)+1), smooth_mae_history)
+plt.xlabel('Epochs')
+plt.ylabel('Validation MAE')
+plt.show()
+
 
 # It looks like the model starts to overfit around 80th epoch, so we'll build a fresh new model with only 80 epochs and all train_data.
 
-# In[ ]:
+# In[21]:
 
 
 model = build_model()
-mode.fit(train_data, train_targets, epochs = 80, batch_size = 1, verbose = 0)
+model.fit(train_data, train_targets, epochs = 80, batch_size = 1, verbose = 0)
 test_mse_score, test_mae_score = model.evaluate(test_data, test_targets)
 print(f"Final model MAE score: {test_mae_score}")
 
