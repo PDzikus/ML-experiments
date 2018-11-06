@@ -5,7 +5,7 @@ My Machine Learning Experiments. I work with Jupyter Notebook, but all notebooks
 k-means with rough sets on "iris" dataset, this is my own implementation of the algorythm - it's not based on any library apart from numpy and pandas
 <br>
 ### MNIST
-mnist dataset with Keras and Tensorflow
+mnist dataset with Keras and Tensorflow, both with regular Dense network and Convolutional Net
 <br>
 ### IMDB
 IMDB dataset from Keras, used for sentiment binary classification. Various experiments with model size
