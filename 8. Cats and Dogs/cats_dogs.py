@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+
 # coding: utf-8
 
 # # Description
@@ -7,9 +7,3 @@
 # Whole experiment is based on code from "Deep Learning with Python" book.
 
 # ## 1. Preparing data for experiment
-
-# In[ ]:
-
-
-
-

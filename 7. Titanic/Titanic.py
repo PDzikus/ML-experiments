@@ -210,7 +210,7 @@ def prepare_plot_data(history):
     return (average_loss, average_val_loss, average_acc, average_val_acc)
 
 
-# In[ ]:
+# In[19]:
 
 
 def plot_loss(avg_loss, avg_val_loss):
@@ -223,7 +223,7 @@ def plot_loss(avg_loss, avg_val_loss):
     plt.show()
 
 
-# In[ ]:
+# In[20]:
 
 
 def plot_acc(avg_acc, avg_val_acc):
@@ -236,13 +236,13 @@ def plot_acc(avg_acc, avg_val_acc):
     plt.show()
 
 
-# In[ ]:
+# In[21]:
 
 
 all_history = test_model(model_builder = build_model)
 
 
-# In[ ]:
+# In[22]:
 
 
 avg_loss, avg_val_loss, avg_acc, avg_val_acc = prepare_plot_data(all_history)
@@ -250,31 +250,31 @@ plot_loss(avg_loss, avg_val_loss)
 plot_acc(avg_acc, avg_val_acc)
 
 
-# In[ ]:
+# In[23]:
 
 
 model = build_model()
-model.fit(train_data, train_label, epochs = 30, batch_size = 1, verbose = 0)
+model.fit(train_data, train_targets, epochs = 20, batch_size = 1, verbose = 0)
 
 
-# In[ ]:
+# In[24]:
 
 
 from sklearn.metrics import roc_curve, roc_auc_score
 
-print(model.evaluate(train_data, train_label))
+print(model.evaluate(train_data, train_targets))
 predict = model.predict(train_data)
 
-auc = roc_auc_score(train_label, predict)
+auc = roc_auc_score(train_targets, predict)
 print (f"AUC: {auc}")
-fpr, tpr, thresholds = roc_curve(train_label, predict)
+fpr, tpr, thresholds = roc_curve(train_targets, predict)
 
 plt.plot([0,1], [0,1], linestyle = '--')
 plt.plot(fpr, tpr, marker = '.')
 plt.show()
 
 
-# In[ ]:
+# In[25]:
 
 
 i = np.arange(len(tpr))
@@ -292,17 +292,17 @@ plt.title('Receiver operating characteristic')
 ax.set_xticklabels([])
 
 
-# In[ ]:
+# In[26]:
 
 
 roc.iloc[(roc.tf-0).abs().argsort()[:1]]
 
 
-# In[337]:
+# In[27]:
 
 
 result = model.predict(test_data)
-cutoff = 0.375958
+cutoff = 0.40
 
 results = pd.DataFrame([0 if result[x] < cutoff else 1 for x in range(len(result))], columns = ['Survived'])
 submittion = pd.read_csv('test.csv', usecols=[0])
@@ -316,13 +316,13 @@ submittion.to_csv("submittion_1.csv", index = False, encoding = 'utf-8')
 # # Experiment 2
 # one-hot encoding the data
 
-# In[327]:
+# In[28]:
 
 
 train_data, train_targets, test_data = copy_dataset()
 
 
-# In[328]:
+# In[29]:
 
 
 from sklearn.preprocessing import StandardScaler
@@ -336,30 +336,81 @@ def process(dataset):
     return dataset
 
 
-# In[329]:
+# In[30]:
 
 
 train_data = process(train_data)
 test_data = process(test_data)
 
 
-# In[330]:
+# In[31]:
 
 
 print(f"Train data shape: {train_data.shape}")
 train_data.sample(5)
 
 
-# In[331]:
+# In[32]:
 
 
 all_history = test_model(model_builder = build_model)
 
 
-# In[332]:
+# In[33]:
 
 
 avg_loss, avg_val_loss, avg_acc, avg_val_acc = prepare_plot_data(all_history)
 plot_loss(avg_loss, avg_val_loss)
 plot_acc(avg_acc, avg_val_acc)
+
+
+# In[34]:
+
+
+model = build_model()
+model.fit(train_data, train_targets, epochs = 20, batch_size = 1, verbose = 0)
+
+
+# In[35]:
+
+
+from sklearn.metrics import roc_curve, roc_auc_score
+
+print(model.evaluate(train_data, train_targets))
+predict = model.predict(train_data)
+
+auc = roc_auc_score(train_targets, predict)
+print (f"AUC: {auc}")
+fpr, tpr, thresholds = roc_curve(train_targets, predict)
+
+plt.plot([0,1], [0,1], linestyle = '--')
+plt.plot(fpr, tpr, marker = '.')
+plt.show()
+
+i = np.arange(len(tpr))
+roc = pd.DataFrame({'fpr' : pd.Series(fpr, index = i), 'tpr': pd.Series(tpr, index = i),
+                   '1-fpr' : pd.Series(1-fpr, index = i), 'tf' : pd.Series(tpr - (1-fpr), index = i),
+                   'thresholds': pd.Series(thresholds, index = i)})
+print(roc.iloc[(roc.tf-0).abs().argsort()[:1]])
+
+
+# In[38]:
+
+
+prediction = model.predict(test_data)
+cutoff = 0.40
+
+from sklearn.preprocessing import Binarizer
+binarizer=Binarizer(cutoff)
+results=binarizer.fit_transform(prediction)
+results=pd.DataFrame(results.astype(np.int32), columns = ['Survived'])
+submittion = pd.read_csv('test.csv', usecols=[0])
+submittion = pd.concat([submittion, results], axis = 1)
+submittion.to_csv("submittion_2.csv", index = False, encoding = 'utf-8')
+
+
+# In[39]:
+
+
+print(submittion.sample(5))
 
