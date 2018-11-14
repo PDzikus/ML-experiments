@@ -16,3 +16,8 @@ Reuters articles dataset from Keras, multiclass multilabel classification
 ### House pricing
 House pricing dataset from Keras, implementation of regression with neural network
 <br>
+### Titanic
+My take on Titanic introductory Kaggle competition with Deep Learning: my best was 78.947% accuracy on test data set. Various experiments.
+<br>
+### Cats and Dogs
+Deep Learning for Vision Recognition. Image classification based on Cats/Dogs dataset from Kaggle
