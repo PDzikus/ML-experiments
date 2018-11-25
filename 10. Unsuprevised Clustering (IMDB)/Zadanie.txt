@@ -1,0 +1,9 @@
+Zadanie składa się z kilku części:
+
+1) Eksploracja danych i krótki raport po angielsku z tym, co zauważył Pan w tych danych. Jeśli będzie Pan używać
+Jupytera, to raport może zostać dodany inline.
+
+2) Pokaż zastosowanie różnych metod redukcji wymiaru cechu i krótko je opisz. Do czego mogłyby być przydatne
+na tym zbiorze?
+
+3) Zastosuj różne techniki do klasteryzacji tego zbioru i opisz charakterystykę znalezionych klastrów
