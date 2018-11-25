@@ -20,4 +20,11 @@ House pricing dataset from Keras, implementation of regression with neural netwo
 My take on Titanic introductory Kaggle competition with Deep Learning: my best was 78.947% accuracy on test data set. Various experiments.
 <br>
 ### Cats and Dogs
-Deep Learning for Vision Recognition. Image classification based on Cats/Dogs dataset from Kaggle
+Deep Learning for Vision Recognition. Image classification based on Cats/Dogs dataset from Kaggle [WORK IN PROGRESS]
+<br>
+### Recommendation Systems workshop
+Those are notebooks used during RS workshop organized durin PyData 2018 conference. Memory-based and Model-based recommendation systems.
+<br>
+### IMDB Unsupervised Clustering
+This is my take on an excersise to cluster a database of movies [WORK IN PROGRESS]
+<br>
